@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Can Language Models Falsify? Evaluating Algorithmic Reasoning with Counterexample Creation</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="REFUTE is a benchmark assessing language models' ability to falsify incorrect algorithmic solutions, a key aspect of scientific reasoning.">
+    <meta name="keywords"
+        content="AI, language models, counterexamples, falsification, algorithmic reasoning, REFUTE benchmark">
+    <meta name="author"
+        content="Shiven Sinha, Shashwat Goel, Ponnurangam Kumaraguru, Jonas Geiping, Matthias Bethge, Ameya Prabhu">
+    <link rel="canonical" href="https://falsifiers.github.io/">
+
+    <!-- Open Graph Meta Tags (for social media previews) -->
+    <meta property="og:title"
+        content="Can Language Models Falsify? Evaluating Algorithmic Reasoning with Counterexample Creation">
+    <meta property="og:description"
+        content="REFUTE evaluates language models' ability to falsify incorrect algorithmic solutions, a key aspect of scientific reasoning.">
+    <meta property="og:image" content="static/images/fig_1_inv_bench.png">
+    <meta property="og:url" content="https://falsifiers.github.io/">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title"
+        content="Can Language Models Falsify? Evaluating Algorithmic Reasoning with Counterexample Creation">
+    <meta name="twitter:description"
+        content="REFUTE evaluates language models' ability to falsify incorrect algorithmic solutions, a key aspect of scientific reasoning.">
+    <meta name="twitter:image" content="static/images/fig_1_inv_bench.png">
+
+    <!-- Pure.css -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css"
+        integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css" />
+
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap"
+        rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="static/index.css">
+</head>
+
+
+<body class="pure-g">
+    <div class="pure-u-xl-1-2 pure-u-5-6" style="max-width: 50rem;">
+        <header>
+            <h1 style="margin-bottom: 1rem;">
+                <em style="color: var(--dark-text)">Can Language Models Falsify?</em>
+                <br>
+                Evaluating Algorithmic Reasoning with Counterexample Creation
+            </h1>
+            <h4 style="font-family: 'Source Sans 3'; font-weight: 400; margin-top: 1.5rem; color: var(--dark-text)">
+                <span class="author">
+                    Shiven Sinha<sup>1</sup>
+                </span>
+                <span class="author">
+                    Shashwat Goel<sup>2,3</sup>
+                </span>
+                <span class="author">
+                    Ponnurangam Kumaraguru<sup>1</sup><br>
+                </span>
+                <span class="author">
+                    Jonas Geiping<sup>2,3,4</sup>
+                </span>
+                <span class="author">
+                    Matthias Bethge<sup>4,5</sup>
+                </span>
+                <span class="author">
+                    Ameya Prabhu<sup>4,5</sup>
+                </span>
+            </h4>
+            <p style="font-family: 'Playfair Display'; font-weight: 500;">
+                <sup>1</sup> IIIT Hyderabad,
+                <sup>2</sup> ELLIS Institute Tübingen,
+                <sup>3</sup> Max Planck Institute for Intelligent Systems,
+                <sup>4</sup> Tübingen AI Center,
+                <sup>5</sup> University of Tübingen
+            </p>
+        </header>
+
+        <section class="pure-g">
+            <span class="pure-u-1-2 pure-u-lg-1-4 main-links" style="border-right: solid 1px grey;">
+                <a href="https://arxiv.org/abs/2502.19414">
+                    <img src="static/images/arxiv_logo.svg" alt="arXiv">
+                    Paper
+                </a>
+            </span>
+            <span class="pure-u-1-2 pure-u-lg-1-4 main-links" style="border-right: solid 1px grey;">
+                <a href="https://github.com/falsifiers/REFUTE">
+                    <img src="static/images/github_logo.svg" alt="GitHub">
+                    Code
+                </a>
+            </span>
+            <span class="pure-u-1-2 pure-u-lg-1-4 main-links" style="border-right: solid 1px grey;">
+                <a href="#results">
+                    <img src="static/images/results_logo.svg" alt="Results">
+                    Results
+                </a>
+            </span>
+            <span class="pure-u-1-2 pure-u-lg-1-4 main-links">
+                <a href="https://huggingface.co/datasets/bethgelab/REFUTE">
+                    <img src="static/images/huggingface_logo.svg" alt="HuggingFace">
+                    Data
+                </a>
+            </span>
+        </section>
+
+        <section>
+            <figure>
+                <img src="static/images/fig_1_inv_bench.png" alt="Figure 1: Description" style="width: 100%;">
+                <figcaption style="padding: 0 1rem;">
+                    <b class="li-head">Reasoning
+                        about correctness. &nbsp;</b>
+                    While standard benchmarks for algorithmic reasoning require models to generate
+                    solutions, we propose an inverse benchmark to evaluate reasoning about correctness by
+                    falsifying incorrect solutions. To allow expressivity, we let the model output a code that
+                    generates the counterexample input, and validate it by comparing the output of the incorrect
+                    solution with a held out correct solution.
+                </figcaption>
+            </figure>
+        </section>
+
+        <section>
+            <h3>Abstract</h3>
+            <p>
+                There is growing excitement about the potential of Language Models (LMs) to accelerate scientific
+                discovery. Falsifying hypotheses is key to scientific progress, as it allows claims to be iteratively
+                refined over time. This process requires significant researcher effort, reasoning, and ingenuity. Yet
+                current benchmarks for LMs predominantly assess their ability to generate solutions rather than
+                challenge them. We advocate for developing benchmarks that evaluate this inverse capability — creating
+                counterexamples for subtly incorrect solutions.
+
+                To demonstrate this approach, we start with the domain
+                of algorithmic problem solving, where counterexamples can be evaluated automatically using code
+                execution. Specifically, we introduce REFUTE, a dynamically updating benchmark that includes recent
+                problems and incorrect submissions from programming competitions, where <b>human experts successfully
+                    identified counterexamples</b>. Our analysis finds that the best reasoning agents, even OpenAI
+                o3-mini
+                (high) with code execution feedback, can create counterexamples for only &lt; 9% of incorrect solutions
+                in REFUTE, even though ratings indicate its ability to solve up to 48% of these problems from scratch.
+                We hope our work spurs progress in evaluating and enhancing LMs’ ability to falsify incorrect solutions
+                — a capability that is crucial for both accelerating research and making models self-improve through
+                reliable reflective reasoning.
+            </p>
+        </section>
+
+        <section>
+            <h3>REFUTE Benchmark</h3>
+            <p>
+                REFUTE <i>(<u>R</u>efuting <u>E</u>rroneous <u>F</u>indings <u>U</u>sing <u>T</u>argeted
+                    <u>E</u>xamples)</i>
+                evaluates whether language models can
+                reason about when code might fail. Specifically, given a problem statement, the input format, and an
+                incorrect code, the task is to find a valid input on which the code fails to produce the desired output.
+                We source these samples from the popular programming competition platform <a
+                    href="https://codeforces.com">Codeforces</a>, which has been the
+                target of several recent solution generation benchmarks.
+            </p>
+
+            <img src="static/images/dataset.png" alt="Dataset construction" style="width: 100%;">
+
+            <ul>
+                <li>
+                    <b class="li-head">
+                        Allows arbitrary algorithmic generation of novel counterexamples:
+                    </b>
+                    We provide the language model a
+                    problem statement and incorrect solution, and ask it to output a code that, when executed,
+                    outputs a counterexample input. This helps the LM generate counterexamples with varying complexity,
+                    ranging from a hard-coded input to computationally complex functions. We score the counterexample as
+                    a success if it satisfies the input constraints while causing the buggy and correct codes to produce
+                    different outputs.
+                </li>
+
+                <li>
+                    <b class="li-head">
+                        Avoids Search and Training Data Leakage:
+                    </b>
+                    Codeforces does not publically reveal the full test cases that broke an incorrect submission on
+                    non-trivial (small) cases, so models cannot directly find counterexamples on the internet.
+                    Further, to prevent indirect leakage
+                    from discussions, we will dynamically update the benchmark with new contests
+                </li>
+
+                <li>
+                    <b class="li-head">
+                        Diversity and Metadata:
+                    </b>
+                    Our benchmark spans 34 fundamental topics in algorithms as tagged by Codeforces (e.g. Greedy,
+                    Dynamic Programming, Graphs, etc.), shown in Figure 2. The problems range
+                    in difficulty from an Elo rating of 1200 to 3500, while the incorrect submissions are authored by
+                    programmers with expertise ranging from Elo 700 to 3800. We provide all these meta-data annotations
+                    for each sample in our benchmark.
+                </li>
+            </ul>
+        </section>
+
+        <section id="results">
+            <h3>Results</h3>
+            <p>
+                We tested prompting and agentic strategies with code-execution feedback across frontier models. We also
+                estimate the number of correct solutions they can generate from scratch based on their officially
+                reported Codeforces ratings. <i>w/ Correct</i> denotes their ability to find counterexamples to
+                incorrect code
+                when the correct, ground-truth code is also revealed to them.
+            </p>
+            <table class="pure-table pure-table-striped" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th rowspan="2">Model</th>
+                        <th rowspan="2">Solution Generation (%)</th>
+                        <th colspan="3" class="main-header">Counterexample Creation (%)</th>
+                    </tr>
+                    <tr>
+                        <th class="sub-header">Prompting</th>
+                        <th class="sub-header">ReAct Agent</th>
+                        <th class="sub-header">w/ Correct</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="model-cell">DeepSeek-V3</td>
+                        <td class="number-cell">10.8</td>
+                        <td class="number-cell">2.7</td>
+                        <td class="number-cell">3.7</td>
+                        <td class="number-cell">3.7</td>
+                    </tr>
+                    <tr>
+                        <td class="model-cell">Sonnet 3.5</td>
+                        <td class="number-cell">6.6</td>
+                        <td class="number-cell">4.6</td>
+                        <td class="number-cell">3.0</td>
+                        <td class="number-cell">2.2</td>
+                    </tr>
+                    <tr>
+                        <td class="model-cell">Gemini Flash 2.0 (Thinking)</td>
+                        <td class="number-cell"></td>
+                        <td class="number-cell">2.1</td>
+                        <td class="number-cell">2.5</td>
+                        <td class="number-cell">2.5</td>
+                    </tr>
+                    <tr>
+                        <td class="model-cell">DeepSeek-R1</td>
+                        <td class="number-cell">44.0</td>
+                        <td class="number-cell">5.8</td>
+                        <td class="number-cell">8.6</td>
+                        <td class="number-cell">4.6</td>
+                    </tr>
+                    <tr>
+                        <td class="model-cell">o3-mini (high)</td>
+                        <td class="number-cell">48.7</td>
+                        <td class="number-cell">8.9</td>
+                        <td class="number-cell">8.6</td>
+                        <td class="number-cell">9.3</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section>
+            <h3>Findings</h3>
+            <ul>
+                <li>
+                    <b class="li-head">Huge gap between solution generation and falsification:</b>
+                    While top reasoning models can generate
+                    correct solutions for nearly half of the problems, their ability to find counterexamples for subtly
+                    incorrect solutions lags significantly, even with agentic code execution feedback.
+                </li>
+                <li>
+                    <b class="li-head">Knowing the correct solution is not enough:</b>
+                    The <i>(w/ Correct)</i> numbers simulate a hypothetical where o3 (currently unreleased)
+                    matches the reported Codeforces rating of 2727, or a future model is able to solve most Codeforces
+                    problems: would they automatically be able to find counterexamples for incorrect
+                    solutions? While counterexample creation abilities could also improve, knowing the correct
+                    solution alone is insufficient even for the best current reasoning model, o3-mini (high).
+                </li>
+                <li>
+                    <b class="li-head">Does explicit search help?</b>
+                    Humans often generate randomized inputs guided by
+                    structural intuition which they expect to yield valid counterexamples, but we observed that models
+                    rarely tried this. We then explicitly prompted models to generate counterexamples using a
+                    search-based strategy with controlled randomization (ref. RandSearch in our paper). Performance of
+                    most models deteriorated. However, models managed to invalidate 6% distinct submissions that they
+                    couldn't earlier. This showsthat models learning to leverage programmatic search when appropriate
+                    can significantly boost performance.
+                </li>
+            </ul>
+
+            <b class="li-head">
+                What are common failure modes? When can models create counterexamples? Are
+                successes across different models and methods correlated? Find more insights in our <a
+                    href="https://arxiv.org/abs/2502.19414">paper</a>!
+            </b>
+        </section>
+
+    </div>
+</body>
+
+</html>

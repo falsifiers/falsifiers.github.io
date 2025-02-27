@@ -1,0 +1,152 @@
+:root {
+    --dark-text: #0D1321;
+    --light-text: #1D2D44;
+    --bright-text: #0094fa;
+}
+
+body {
+    font-family: "Source Sans 3", sans-serif;
+    font-weight: 400;
+    padding: 3rem 0;
+    color: var(--dark-text);
+    justify-content: center;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Playfair Display", serif;
+    margin: 0;
+    color: var(--light-text);
+}
+
+h1,
+h2 {
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+h1 {
+    font-size: 47.7px;
+}
+
+h2 {
+    font-size: 39.81px;
+}
+
+h3 {
+    font-size: 33.18px;
+    margin-bottom: 1.5rem;
+}
+
+h4 {
+    font-size: 27.65px;
+}
+
+h5 {
+    font-size: 23.04px;
+}
+
+h6 {
+    font-size: 19.2px;
+}
+
+figure {
+    margin: 0;
+}
+
+section {
+    margin: 3.5rem 0;
+}
+
+section {
+    line-height: 140%;
+}
+
+li {
+    margin-top: 1rem;
+}
+
+h4>sup {
+    font-size: 14px;
+    transform: translateY(-0.5em);
+    display: inline-block;
+}
+
+.author {
+    white-space: nowrap;
+    margin-right: 1rem;
+}
+
+.main-links {
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 19.2px;
+    margin-bottom: 0.5rem;
+}
+
+.main-links a {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+a {
+    color: var(--light-text);
+    /* text-decoration: none; */
+    transition: color 0.2s;
+    font-weight: 600;
+}
+
+a:hover {
+    color: var(--bright-text);
+}
+
+.main-links img {
+    height: 1em;
+    margin-right: 0.5rem;
+}
+
+.li-head {
+    font-family: 'Playfair Display', serif;
+    font-weight: 800;
+    color: var(--light-text);
+}
+
+th[rowspan] {
+    vertical-align: middle;
+}
+
+th {
+    text-align: center;
+}
+
+.main-header {
+    border-bottom: 1px solid #cbcbcb !important;
+    /* Adjust thickness and color as needed */
+}
+
+@media screen and (max-width: 768px) {
+    h1 {
+        font-size: 39.81px;
+    }
+
+    h2 {
+        font-size: 33.18px;
+    }
+
+    h3 {
+        font-size: 27.65px;
+    }
+
+    h4 {
+        font-size: 23.04px;
+    }
+
+    h4>sup {
+        transform: translateY(-0.3em);
+    }
+}
